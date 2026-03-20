@@ -1,0 +1,42 @@
+{
+  "name": "cursor-chat-search-extension",
+  "displayName": "Cursor Chat Search",
+  "description": "Search Cursor chat history directly from Cursor/VS Code.",
+  "version": "0.1.0",
+  "publisher": "19bischof",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/19bischof/vscode-search-chat.git"
+  },
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:cursorChatSearch.search"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "cursorChatSearch.search",
+        "title": "Search Cursor Chats..."
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "build": "npm run compile && npx @vscode/vsce package",
+    "package": "npm run build",
+    "package:vsix": "npm run build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.99.0",
+    "typescript": "^5.9.2"
+  }
+}
