@@ -38,5 +38,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release delete latest --yes 2>/dev/null || true
+          gh release delete latest --yes --cleanup-tag 2>/dev/null || true
           gh release create latest *.vsix --title "Latest" --notes "Built from \`$(git rev-parse --short HEAD)\` on \`main\`" --prerelease
