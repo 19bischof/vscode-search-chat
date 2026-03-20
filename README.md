@@ -1,45 +1,26 @@
-# Cursor Chat Search extension
+# Cursor Chat Search
 
-This extension adds Cursor/VS Code commands to search local chat history directly from
-within the extension (no external shell script required).
+Search your Cursor chat history from the command palette.
 
-## Features
+## Usage
 
-- `Search Cursor Chats...` command
-  - search term / regex
-  - case sensitivity
-  - role filter (`user`/`assistant`)
-  - project filter
-  - context size
-  - optional date windows (`--after`, `--before`)
-- preview matching chats in a quick-pick list
-- open transcript file directly
-- show a markdown snippet preview
-- rerun last search via `Search Cursor Chats: Reopen Last 20 Results`
-- copy the exact query metadata or open the raw transcript file as fallback
+Open the command palette and run **Search Cursor Chats...**.
 
-## Files
+Type your query and press Enter. Select a result to open the chat directly in Cursor.
+The last query is pre-filled so you can repeat a search instantly.
 
-- Search runs internally in the extension code and reads from:
-  - `~/.cursor/projects/*/agent-transcripts/*/*.jsonl`
-  - Cursor `workspaceStorage` composer metadata for chat titles (`composer.composerData`)
-  - first user message content in each chat as a fallback title
+## How it works
+
+- Scans `~/.cursor/projects/*/agent-transcripts/*/*.jsonl` for matching messages
+- Reads `workspaceStorage` SQLite databases to resolve chat titles
+- Falls back to the first user message as the title when no stored title exists
+- All processing is local — no network requests
 
 ## Build
 
 ```bash
-cd tools/cursor-chat-search-extension
 npm install
 npm run build
 ```
 
-Then open Cursor Extensions panel and load this extension folder in development mode.
-
-## Permissions
-
-- The extension reads `agent-transcripts` JSONL files from:
-  `~/.cursor/projects/*/agent-transcripts/*/*.jsonl`
-- It also reads Cursor workspace metadata at:
-  `~/Library/Application Support/Cursor/User/workspaceStorage/*/state.vscdb`
-  to display stored chat titles when available.
-- No network requests are made.
+This compiles the TypeScript and packages a `.vsix` file ready to install.
