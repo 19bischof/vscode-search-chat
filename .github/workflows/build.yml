@@ -27,10 +27,14 @@ jobs:
 
       - run: npm run build
 
+      - name: Find VSIX
+        id: vsix
+        run: echo "file=$(ls *.vsix)" >> "$GITHUB_OUTPUT"
+
       - uses: actions/upload-artifact@v4
         with:
           name: vsix
-          path: "*.vsix"
+          path: ${{ steps.vsix.outputs.file }}
           if-no-files-found: error
 
       - name: Publish latest release
@@ -39,4 +43,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release delete latest --yes --cleanup-tag 2>/dev/null || true
-          gh release create latest *.vsix --title "Latest" --notes "Built from \`$(git rev-parse --short HEAD)\` on \`main\`" --prerelease
+          gh release create latest "${{ steps.vsix.outputs.file }}" \
+            --title "Latest" \
+            --notes "Built from \`$(git rev-parse --short HEAD)\` on \`main\`" \
+            --latest
